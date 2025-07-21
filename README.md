@@ -15,7 +15,7 @@ This is an early version of the project. **Architecture, file structure, and res
 | Layer | Technology |
 |-------|------------|
 | Interface (Sellers) | Discord Bot (discord.js) |
-| Interface (Buyers) | Facebook Messenger Bot (Facebook Messenger Twilio API) |
+| Interface (Buyers) | Facebook Messenger Bot (Facebook Messenger API) |
 | Backend API | Express.js |
 | AI Engine | OpenAI (GPT-4) |
 | Scheduler | Google Calendar API |

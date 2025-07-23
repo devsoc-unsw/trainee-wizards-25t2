@@ -3,22 +3,28 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "start:discord": "node discord-bot/index.js",
-    "start:fb": "node fb-bot/fbWebhook.js",
-    "start:api": "node backend/server.js"
+    "build": "tsc",
+    "start": "node dist/backend/server.js",
+    "dev": "ts-node-dev backend/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
     "openai": "^5.10.1",
     "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.15",
+    "prisma": "^6.12.0",
+    "typescript": "^5.8.3"
   }
 }

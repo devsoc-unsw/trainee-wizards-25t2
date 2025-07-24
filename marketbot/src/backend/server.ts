@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import userRouter from './api/user';
 import listingsRouter from './api/listings';
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Imported Routes
+app.use('/api/user', userRouter);
 app.use('/api/listings', listingsRouter);
 
 // Routes

@@ -1,17 +1,22 @@
 import { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'; // adjust import
+import { ListingInput } from '../interfaces';
 
 const router = Router();
 const prisma = new PrismaClient();
 
+// these are cooked rn btw
+
 // Create a new listing
 router.post('/', async (req: Request, res: Response) => {
-  try {
-    const listing = await prisma.listing.create({ data: req.body });
-    res.status(201).json(listing);
-  } catch (err) {
-    res.status(400).json({ error: 'Failed to create listing', details: err });
-  }
+    const data: ListingInput = req.body;
+
+    try {
+        const listing = await prisma.listing.create({ data });
+        res.status(201).json(listing);
+    } catch (err) {
+        res.status(400).json({ error: 'Failed to create listing', details: err });
+    }
 });
 
 // Get all listings

@@ -17,4 +17,21 @@ router.post('/', async (req: Request, res: Response) => {
     }
 });
 
+// Get user by Discord ID
+router.get('/:discordId', async (req: Request, res: Response) => {
+    const { discordId } = req.params;
+    if (!discordId || typeof discordId !== 'string') {
+        return res.status(400).json({ error: 'Discord ID is required' });
+    }
+    try {
+        const user = await prisma.user.findUnique({ where: { discordId } });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch user', details: err });
+    }
+});
+
 export default router;

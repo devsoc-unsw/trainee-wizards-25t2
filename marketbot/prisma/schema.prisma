@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -17,8 +16,7 @@ datasource db {
 model User {
   id           String   @id @default(uuid())
   name         String
-  discordId    String // For Discord commands
-  fbPageId     String // For receiving messages from fb page
+  discordId    String @unique // For Discord commands
   listings     Listing[]
   createdAt    DateTime @default(now())
 }

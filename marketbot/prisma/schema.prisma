@@ -41,7 +41,7 @@ model Conversation {
   listingId    String
   messages     Message[]
   buyerName    String
-  buyerId      String // Facebook sender ID
+  buyerId      String @unique // Facebook sender ID - can only have one conversation at a time
   lastActivity DateTime @default(now())
   isClosed     Boolean @default(false)
 }

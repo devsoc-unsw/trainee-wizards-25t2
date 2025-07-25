@@ -92,14 +92,12 @@ GOOGLE_REFRESH_TOKEN=...
 
 3. Setup local Postgresql database
 
-4. Configure .env file using .env.example
-
-5. Run prisma schema to setup your database
+4. Run prisma schema to setup your database
 ``` bash
 npx prisma migrate dev
 ``` 
 
-6. Run Project
+5. Run Project
 ``` bash
 npm run dev
 ```

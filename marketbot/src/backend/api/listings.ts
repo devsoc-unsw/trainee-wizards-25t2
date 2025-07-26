@@ -102,13 +102,12 @@ router.get('/:id/conversations', async (req: Request, res: Response) => {
     if (!id) {
         return res.status(400).json({ error: 'Listing ID is required' });
     }
-
     try {
         const conversations = await prisma.conversation.findMany({
-            where: { id },
+            where: { listingId: id },
             orderBy: { lastActivity: 'desc' },
         });
-        res.json(conversations);
+        res.status(200).json(conversations);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch conversations', details: err });
     }

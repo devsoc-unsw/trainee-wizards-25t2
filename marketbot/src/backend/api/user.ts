@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client'; // adjust import
+import { PrismaClient } from '@prisma/client';
 import { UserInput } from '../interfaces';
 
 const router = Router();

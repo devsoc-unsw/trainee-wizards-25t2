@@ -27,10 +27,12 @@ model Listing {
   description  String
   minPrice     Float
   maxPrice     Float
+  bestOffer    String?   // best offer from conversations (conversation id)
   condition    String
   user         User     @relation(fields: [userId], references: [id])
   userId       String
   conversations Conversation[]
+  meeting      Meeting?    @relation("ListingMeeting")
   createdAt    DateTime @default(now())
   status       String   // e.g., "active", "negotiating", "sold"
 }
@@ -41,9 +43,11 @@ model Conversation {
   listingId    String
   messages     Message[]
   buyerName    String
-  buyerId      String // Facebook sender ID
+  buyerId      String @unique // Facebook sender ID - can only have one conversation at a time
+  currPrice    Float
   lastActivity DateTime @default(now())
   isClosed     Boolean @default(false)
+  meeting      Meeting?    @relation("ConversationMeeting")
 }
 
 model Message {
@@ -54,6 +58,22 @@ model Message {
   content        String
   timestamp      DateTime @default(now())
 }
+
+model Meeting {
+  id               String         @id @default(uuid())
+  listing          Listing        @relation("ListingMeeting", fields: [listingId], references: [id])
+  listingId        String         @unique   // only one meeting per listing
+
+  conversation     Conversation   @relation("ConversationMeeting", fields: [conversationId], references: [id])
+  conversationId   String         @unique   // only one meeting per conversation
+
+  agreedPrice      Float
+  location         String?
+  meetingDate      DateTime?
+  eventId          String?
+  createdAt        DateTime       @default(now())
+}
+
 
 model CalendarEvent {
   id           String   @id @default(uuid())

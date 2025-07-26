@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client'; // adjust import
+import { PrismaClient } from '@prisma/client';
 import { ListingInput } from '../interfaces';
 
 const router = Router();
@@ -93,6 +93,24 @@ router.delete('/:id', async (req: Request, res: Response) => {
         res.status(204).send();
     } catch (err) {
         res.status(400).json({ error: 'Failed to delete listing', details: err });
+    }
+});
+
+// get all conversations for a listing
+router.get('/:id/conversations', async (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).json({ error: 'Listing ID is required' });
+    }
+
+    try {
+        const conversations = await prisma.conversation.findMany({
+            where: { id },
+            orderBy: { lastActivity: 'desc' },
+        });
+        res.json(conversations);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch conversations', details: err });
     }
 });
 

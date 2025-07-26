@@ -7,9 +7,10 @@ const prisma = new PrismaClient();
 
 // create new conversation
 router.post('/', async (req: Request, res: Response) => {
-    const { listingId, buyerName, buyerId } = req.body; // buyerId is facebook ID
-    if (!listingId || !buyerName || !buyerId) {
-        return res.status(400).json({ error: 'Listing ID, buyer name and buyer ID are required' });
+    // buyerId is facebook ID & default currPrice is maxPrice of listing
+    const { listingId, buyerName, buyerId, currPrice } = req.body;
+    if (!listingId || !buyerName || !buyerId || !currPrice) {
+        return res.status(400).json({ error: 'Listing ID, buyer name, buyer ID and currPrice are required' });
     }
     try {
         const conversation = await prisma.conversation.create({
@@ -17,6 +18,7 @@ router.post('/', async (req: Request, res: Response) => {
                 listingId,
                 buyerName,
                 buyerId,
+                currPrice
             },
         });
         res.status(201).json(conversation);
@@ -51,8 +53,7 @@ router.get('/by-buyer/:buyerId', async (req: Request, res: Response) => {
     }
     try {
         const conversation = await prisma.conversation.findUnique({
-            where: { buyerId },
-            orderBy: { lastActivity: 'desc' },
+            where: { buyerId }
         });
         
         if (!conversation) {
@@ -68,7 +69,7 @@ router.get('/by-buyer/:buyerId', async (req: Request, res: Response) => {
 // update conversation (e.g. mark as closed)
 router.put('/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { isClosed } = req.body;
+    const { isClosed, currPrice } = req.body;
     
     if (!id) {
         return res.status(400).json({ error: 'Conversation ID is required' });
@@ -77,7 +78,7 @@ router.put('/:id', async (req: Request, res: Response) => {
     try {
         const updated = await prisma.conversation.update({
             where: { id },
-            data: { isClosed },
+            data: { isClosed, currPrice },
         });
         res.status(200).json(updated);
     } catch (err) {
@@ -114,7 +115,7 @@ router.get('/:id/messages', async (req: Request, res: Response) => {
     try {
         const messages = await prisma.message.findMany({
             where: { conversationId: id },
-            orderBy: { createdAt: 'asc' },
+            orderBy: { timestamp: 'asc' },
         });
         res.status(200).json(messages);
     } catch (err) {

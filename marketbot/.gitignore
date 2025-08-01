@@ -1,5 +1,5 @@
-marketbot/node_modules
+node_modules
 # Keep environment variables out of version control
-marketbot/.env
+.env
 
 /src/generated/prisma

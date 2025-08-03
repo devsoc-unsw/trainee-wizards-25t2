@@ -13,11 +13,17 @@ export interface ListingInput {
     status: string;
 }
 
-export interface meetingInput {
-    title: string;
-    description: string;
-    meetingTime: number;
-    meetingLocation: string; 
-    userId: string;
-    status: string; 
+export interface MeetingInput {
+    meetingId: string; 
+    listing: ListingInput; 
+    listingId: string;
+
+    // conversation: ConversationInput;
+    // conversationId: string;
+
+    agreedPrice: number;
+    location?: string; 
+    // meetingData?: DateTime;
+    eventId?: string;
+    // createdAt: DateTime;
 }
